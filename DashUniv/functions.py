@@ -23,7 +23,8 @@ def remove_pct(string):
         string=string[:-1]
     return string
 
-df = pd.read_csv('/home/caroline09/projects/Reporting/top50_2016.csv')
+#df = pd.read_csv('/home/caroline09/projects/Reporting/top50_2016.csv')
+df = pd.read_csv('F:/Documents/Top50Universities/top50_2016.csv')
 
 df2=df.copy().dropna()
 
@@ -41,12 +42,12 @@ for col in df2.columns:
     if col in cols:
         df2[col]=pd.to_numeric(df2[col], errors='coerce')
 
-
+'''
 # Create the scatter plot
 fig1 = px.scatter(df2, x="world_rank", y="research",
                  hover_name="university_name",
                  title="Research vs Rank for the top 50 universities")
-
+'''
 
 # Create a bar plot for the top five universities
 dftop5=df2.iloc[:5,:]
@@ -152,12 +153,25 @@ fig4.update_traces(diagonal_visible=False)
 exp_var_cumul = np.cumsum(pca2.explained_variance_ratio_)
 
 # Display explained variance graph
-fig5 = px.area(
-    x=range(1, exp_var_cumul.shape[0] + 1),
-    y=exp_var_cumul,
-    labels={"x": "# Components", "y": "Explained Variance"}
-)
 
+fig5 = go.Figure()
+fig5.add_trace(go.Scatter(
+    x=list(range(1, exp_var_cumul.shape[0] + 1)),
+    y=exp_var_cumul,
+    name='Cumulated Explained Variance',
+    line=dict(color='firebrick')
+    ))
+fig5.add_trace(go.Bar(
+    x=list(range(1, exp_var_cumul.shape[0] + 1)),
+    y=pca2.explained_variance_ratio_,
+    name='Explained Variance Ratio',
+    marker_color='royalblue'
+    ))
+
+
+fig5.update_layout(title='Explained Variance',
+                   xaxis_title="# Components",
+                   yaxis_title="Explained Variance")
 
 # Visualize Loadings
 loadings = pca.components_.T * np.sqrt(pca.explained_variance_)
@@ -180,8 +194,15 @@ for i, feature in enumerate(features):
         text=feature,
     )
 
+fig6.update_layout(title='Loadings')
+
+
+
 # Visualize heatmap
 df_corr=np.array(features.corr())
 df_corr=np.around(df_corr, decimals=2)
 
-fig7 = ff.create_annotated_heatmap(df_corr)
+x=list(features.columns)
+y=list(features.columns)
+
+fig7 = ff.create_annotated_heatmap(df_corr, x=x, y=y, colorscale='Viridis')
