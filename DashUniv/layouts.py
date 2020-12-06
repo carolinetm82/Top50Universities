@@ -32,15 +32,21 @@ layout1 = html.Div([
         href="",
         target="_blank"
     ),
+    # Putting a Dropdown
+    dcc.Dropdown(
+        id='dropdown-univ',
+        options=[{'label': i, 'value': i} for i in df2['country'].unique()],
+        value='United States of America',
+        placeholder="Select a country",
+    ),
 
     # Display scatter plot research vs rank
     dcc.Graph(
-        id='research-vs-world_rank',
-        figure=fig1
+        id='research-vs-world_rank'
     ),
 
     # Display bar plot
-        dcc.Graph(
+    dcc.Graph(
         id='top five',
         figure=fig2
     ),
