@@ -23,8 +23,7 @@ def remove_pct(string):
         string=string[:-1]
     return string
 
-#df = pd.read_csv('/home/caroline09/projects/Reporting/top50_2016.csv')
-df = pd.read_csv('F:/Documents/Top50Universities/top50_2016.csv')
+df = pd.read_csv('/home/caroline09/projects/Reporting/top50_2016.csv')
 
 df2=df.copy().dropna()
 
@@ -206,3 +205,4 @@ x=list(features.columns)
 y=list(features.columns)
 
 fig7 = ff.create_annotated_heatmap(df_corr, x=x, y=y, colorscale='Viridis')
+fig7.update_layout(title='Heatmap of the correlation matrix')
