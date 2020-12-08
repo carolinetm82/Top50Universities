@@ -8,9 +8,7 @@ from functions import *
 
 # Create an index page for homepage
 index_page = html.Div([
-    dcc.Link('Go to Page 1', href='/apps/app1'),
-    html.Br(),
-    dcc.Link('Go to Page 2', href='/apps/app2'),
+    html.H1('Welcome to the dashboard of the Top 50 Universities')
 ])
 
 # Create page 1
@@ -18,6 +16,7 @@ layout1 = html.Div([
     html.H4(children='The 50 best ranked universities (2016)'),
     # Create the data table containing the universities dataset
     dash_table.DataTable(
+    css=[{'selector': '.row', 'rule': 'margin: 0'}],    
     data=df.to_dict('records'),
     columns=[{'id': c, 'name': c} for c in df.columns],
     page_size=10,
@@ -61,8 +60,6 @@ layout1 = html.Div([
 
     # Display links to other pages
     html.Br(),
-    dcc.Link('Go to Page 2', href='/apps/app2'),
-    html.Br(),
     dcc.Link('Go back to home', href='/')
 ])
 
@@ -91,7 +88,7 @@ layout2 = html.Div([
         id='pca-heatmap',
         figure=fig7
     ),
-    dcc.Link('Go to Page 1', href='/apps/app1'),
+ 
     html.Br(),
     dcc.Link('Go back to home', href='/')
 ])
